@@ -1,5 +1,5 @@
 /** Class that determines whether or not a year is a leap year.
- *  @author YOUR NAME HERE
+ *  @author weiguoqiang  this is a perfect version
  */
 public class LeapYear {
 
