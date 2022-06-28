@@ -16,11 +16,14 @@ public class LeapYear {
 
     /** Must be provided an integer as a command line argument ARGS. */
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**  try to push **/
 =======
     /**  try to push  and why must have 2
      * i know how to do it ! man !**/
 >>>>>>> 2fc38ed (why we must have 2)
+=======
+>>>>>>> cc0a8f5 (Revert "why we must have 2")
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Please enter command line arguments.");
