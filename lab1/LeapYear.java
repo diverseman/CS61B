@@ -1,5 +1,5 @@
 /** Class that determines whether or not a year is a leap year.
- *  @author weiguoqiang  this is a perfect version
+ *  @author weiguoqiang  this is a perfect version git is a awuful stuff
  */
 public class LeapYear {
 
