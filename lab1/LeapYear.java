@@ -14,7 +14,7 @@ public class LeapYear {
         }
     }
 
-    /** Must be provided an integer as a command line argument ARGS. */
+
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Please enter command line arguments.");
@@ -29,18 +29,5 @@ public class LeapYear {
             }
         }
     }
-    public static  boolean isLeapYear(int year){
-        /*
-        test if a isLeapYear
-         */
-        if (year%400==0 || (year%4==0 && year%100!=0)){
-            return true;
-        }
-        else return false;
-
-
-    }
-
-
 }
 
