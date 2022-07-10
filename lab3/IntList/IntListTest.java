@@ -71,6 +71,16 @@ public class IntListTest {
         assertEquals(IntList.reverse(IntList.of(0,1,2,3)),IntList.of(3,2,1,0));
     }
 
+
+
+    @Test
+    public  void  testFlatten(){
+        int c[][]={{1, 2, 3}, {}, {7, 8}};
+        int [] a =new IntList().flatten(c);
+        int b[]={1, 2, 3, 7, 8};
+        assertArrayEquals(a,b);
+    }
+
     /** If you're running this from the command line, you'll need
       * to add a main method. See ArithmeticTest.java for an
       * example. */
