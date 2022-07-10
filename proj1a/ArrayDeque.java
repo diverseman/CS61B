@@ -1,4 +1,8 @@
-/*更改思路： 增加一个resizing，这个可以是O（n）的复杂度
+/*
+!!! a.length 是这个数声明时 的框框的长度， int a[]=new int[100]; a.length=100
+所以这里的length和size 实际意义搞混了，需要重写
+
+更改思路： 增加一个resizing，这个可以是O（n）的复杂度
 resize(size*REFACTOR)
 空间复杂度：usage ratio： SIZE/array.length
  halve the size of the array when R falls to less than 0.25.
