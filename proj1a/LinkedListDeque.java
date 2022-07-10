@@ -165,12 +165,8 @@ public class LinkedListDeque<T> {
          return null;
 
     }
-
     //和 get 一样
-
-
-
-    //加入一个helper函数就会好很多
+    //加入一个helper函数就会好很多,思想是用另一个helper递归函数 让index 和起始点 两者不断逼近
     private T getRecursiveHelper(Node temp, int index) {
         if (index == 0) {
             return temp.item;
