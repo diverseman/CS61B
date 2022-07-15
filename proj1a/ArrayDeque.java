@@ -1,3 +1,5 @@
+
+
 /*
 !!! a.length 是这个数声明时 的框框的长度， int a[]=new int[100]; a.length=100
 所以这里的length和size 实际意义搞混了，需要重写
@@ -6,122 +8,164 @@
 resize(size*REFACTOR)
 空间复杂度：usage ratio： SIZE/array.length
  halve the size of the array when R falls to less than 0.25.
-
-目前只是一个非常朴素的实现，还需要进一步改进，几乎所有的函数
 */
 public class ArrayDeque <T>{
+    //实际大小
     static int size;
     T a[];
-
+    //容量
+    int capacity;
+    int addFirst;
+    int addLast;
     public ArrayDeque(){
-        size=8;
-        a=(T[])new Object[size];
+        size=0;
+        a=(T[])new Object[capacity];
+        addFirst=3;
+        addLast=4;
+        capacity=8;
+    }
+
+    // index减少
+    public int minusOne(int index,int length){
+        if (index==0) return length-1;
+        //Q:这里可能因为没有% 出现一些问题
+        index=index%length;
+        return index--;
+    }
+
+    // index 增加
+    public  int addOne( int index,int length){
+        if (index==length-1){
+            return 0;
+        }
+        index=index%length;
+        return index++;
+    }
+    // 容量变成原来的2倍，
+    // 例子：
+    // 原数组：
+    // 1 2 3 4
+    // 现数组：
+    // _           _           _           _            1  2  3  4
+    //addLast                             addFirst
+    public void   resizeUp(int newCapacity){
+
+        int temp=capacity;
+
+        int i=0;
+        //构建一个新的数组
+        T newArray[]=(T[]) new Object[newCapacity];
+        while (i<capacity) {
+            newArray[temp]=a[addLast];
+            temp=addOne(temp,newCapacity);
+            addLast=addOne(addLast,capacity);
+            i++;
+        }
+        a=newArray;
+        addFirst=capacity-1;
+        addLast=addOne(temp,newCapacity);
+        capacity=newCapacity;
+        return ;
+    }
+
+
+    public void resizeDown(int newCapacity){
+        T newArray[]=(T[]) new Object[newCapacity];
+        int temp=newCapacity/2;
+        int i=0;
+        int index=addOne(addFirst,capacity);
+        while (i<size()) {
+            newArray[temp]=a[index];
+            i++;
+            index=addOne(index, capacity);
+            temp=addOne(temp,newCapacity);
+        }
+        capacity=newCapacity;
+        a=newArray;
     }
     //需要更改
     public void addFirst(T item){
-        if (a.length<size()){
-            for ( int i=0;i<size;i++){
-                a[i+1]=a[i];
-                if (i==0){
-                    a[0]=item;
-                }
-            }
-            size+=1;
-            return ;
+
+        if (size==a.length){
+            resizeUp(a.length*2);
         }
-        T b[] = (T[]) new Object[size()+1];
-        for ( int i=0;i<size+1;i++){
-            if (i==0) {
-                b[0]=item;
-                continue;
-            }
-            b[i]=a[i-1];
-        }
-        a=b;
+        a[addFirst]=item;
         size+=1;
+        minusOne(addFirst,capacity);
         return;
     }
-    //需要更改
     public void addLast(T item){
-        if (a.length<size()){
-            a[a.length]=item;
-            size+=1;
-            return ;
-        }
-        else {
-            T b[] = (T[]) new Object[size()+1];
-            for ( int i=0;i<size+1;i++){
-                if (i==size) {
-                    b[size]=item;
-                    break;
-                }
-                b[i]=a[i];
-            }
-            a=b;
-            size+=1;
-
+        if (size==a.length){
+            resizeUp(a.length*2);
         }
 
-        
+        a[addLast]=item;
+        size++;
+        addOne(addLast,capacity);
+
     }
     public boolean isEmpty(){
-        if (a.length==0) return true;
+        if (size==0) return true;
         return false;
-        
+
     }
     public int size(){
-
         return size;
-        
+
     }
-    public void printDeque(){
-        for (int i=0; i<a.length;i++){
-            System.out.println(a[i]);
+
+// 打印之后再说，感觉是 first 打印first的，last打印last的，需要在改
+    public void printDeque() {
+        if (size() == 0) return;
+        //打印不对
+
+
+        int index = addOne(addFirst, capacity);
+        int res = minusOne(addLast, capacity);
+        while (index != res) {
+            //如果没有东西，那就略过 这里好像有问题，因为原数组 空的地方可能全为0
+            if (a[index] == null) continue;
+            System.out.println(a[index]);
+            index = minusOne(index, capacity);
         }
     }
-    //这里也需要更改
     public T removeFirst(){
-
         if (a.length==0 ) return null;
-        T temp=a[0];
-        if (a.length==1){
-            size=0;
-            return temp;
-        }
-        for ( int i=0; i<a.length;i++){
-            a[i]=a[i+1];
-        }
-        size-=1;
-        return temp;
+        int index=minusOne(addFirst,capacity);
+        T temp=a[index];
+        addFirst=index;
+        a[index]=null;
+        size--;
+        if (size/capacity<0.25){
+            resizeDown(capacity/2);
+         }
+
+        return temp ;
     }
-    //这里也需要更改
+
     public T removeLast(){
-        if (a.length==0 ) return null;
-        T temp=a[0];
-        if (a.length==1){
-            size=0;
-            return temp;
-        }
-        T b[]=(T[]) new Object[a.length-1];
-        for ( int i =0 ; i<a.length-1;i++){
-            b[i]=a[i];
+        if (capacity==0 ) return null;
+        int index=addOne(addLast,capacity);
+        T temp=a[index];
+        addLast=index;
+        size--;
+        a[index]=null;
+        if (size/capacity<0.25){
+            resizeDown(capacity/2);
         }
 
-        a=b;
-        size-=1;
-        return temp;
+        return temp ;
+
+
+
     }
-    //这里需要更改
+
     public T get(int index){
         return a[index];
 
         
     }
-    //更改
-    public int minusOne(int index){
-        return size();
 
-    }
 
 
 }
