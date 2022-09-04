@@ -43,6 +43,8 @@ class testAnother{
         String s= q.removeLast();
         System.out.println(s);
         ArrayDeque<Integer> q1=new ArrayDeque<>();
+        q1.addFirst(1);
+        System.out.println("this is the q1`s size:"+q1.size());
 
     }
 

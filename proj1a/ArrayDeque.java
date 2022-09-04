@@ -99,7 +99,7 @@ public class ArrayDeque <T>{
             resizeUp(capacity*2);
         }
         a[addFirst]=item;
-        size+=1;
+        size=size+1;
         addFirst=minusOne(addFirst,capacity);
         return;
     }
@@ -109,7 +109,7 @@ public class ArrayDeque <T>{
         }
 
         a[addLast]=item;
-        size++;
+        size=size+1;
         addLast=addOne(addLast,capacity);
         return;
 
@@ -120,6 +120,7 @@ public class ArrayDeque <T>{
 
     }
     public int size(){
+        if (size<=0) return 0 ;
         return size;
 
     }
