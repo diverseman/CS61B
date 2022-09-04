@@ -2,7 +2,7 @@
 
 public class LinkedListDeque<T> {
     // 需要一个LinkedList 节点
-     public class Node{
+     private class Node{
 
 
          // 还得想一想,两个变量得是私有的
@@ -23,7 +23,7 @@ public class LinkedListDeque<T> {
     }
     // 初始化的话，应该有一个节点
     private Node sentinel;
-     static int  size;
+    private  static int  size;
      //生成一个空的Deque，此时size为0
      public LinkedListDeque(){
          //sentinel 最开始应该是自己指向自己，null应该也可以

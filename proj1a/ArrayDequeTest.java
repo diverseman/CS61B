@@ -40,15 +40,10 @@ class testAnother{
         for (int i =0; i<32;i++) {
             q.addFirst(String.valueOf(i));
         }
-        Assert.assertEquals(32,q.size());
-        System.out.println("this is the content:");
-        q.printDeque();
-        for (int i = 0; i < 16; i++) {
-            q.removeFirst();
-        }
-        Assert.assertEquals(16,q.size());
-        System.out.println("this is the content:");
-        q.printDeque();
+        String s= q.removeLast();
+        System.out.println(s);
+        ArrayDeque<Integer> q1=new ArrayDeque<>();
+
     }
 
     public static void main(String[] args) {

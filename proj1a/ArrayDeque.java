@@ -11,12 +11,12 @@ resize(size*REFACTOR)
 */
 public class ArrayDeque <T>{
     //实际大小
-     static int size;
-     T a[];
+     private static int size;
+     private T a[];
     //容量
-     int capacity;
-     int addFirst;
-     int addLast;
+    private int capacity;
+    private int addFirst;
+    private int addLast;
     public ArrayDeque(){
         size=0;
         addFirst=3;
@@ -26,7 +26,7 @@ public class ArrayDeque <T>{
     }
 
     // index减少
-    public int minusOne(int index,int length){
+    private int minusOne(int index,int length){
         if (index==0) return length-1;
         //Q:这里可能因为没有% 出现一些问题
         index=index%length;
@@ -35,7 +35,7 @@ public class ArrayDeque <T>{
     }
 
     // index 增加
-    public  int addOne( int index,int length){
+    private   int addOne( int index,int length){
         if (index==length-1){
             return 0;
         }
@@ -53,7 +53,7 @@ public class ArrayDeque <T>{
     // _           _           _           _            4 3 2 1
     //addLast                             addFirst
     //
-    public void   resizeUp(int newCapacity){
+    private void   resizeUp(int newCapacity){
         int temp=newCapacity/2;
         int i=0;
         //构建一个新的数组
@@ -75,7 +75,7 @@ public class ArrayDeque <T>{
 
     //// 0 1 2 3 _ _ _ _ _ _ _
     //   _ 0 _ _
-    public void resizeDown(int newCapacity){
+    private void resizeDown(int newCapacity){
         T newArray[]=(T[]) new Object[newCapacity];
         int temp=newCapacity/2;
         int i=0;
@@ -149,7 +149,8 @@ public class ArrayDeque <T>{
         addFirst=index;
         a[index]=null;
         size-=1;
-        if ((float)size/capacity<0.25){
+
+        if (capacity!=8 && (float)size/capacity<0.25){
             resizeDown(capacity/2);
          }
 
@@ -158,12 +159,12 @@ public class ArrayDeque <T>{
 
     public T removeLast(){
         if (capacity==0 ) return null;
-        int index=addOne(addLast,capacity);
+        int index=minusOne(addLast,capacity);
         T temp=a[index];
         addLast=index;
-        size--;
+        size-=1;
         a[index]=null;
-        if ((float)size/capacity<0.25){
+        if (capacity!=8 && (float)size/capacity<0.25){
             resizeDown(capacity/2);
         }
 
@@ -171,7 +172,11 @@ public class ArrayDeque <T>{
     }
 
     public T get(int index){
-        return a[index];
+        int temp=addFirst;
+        for (int i = 0; i < index+1; i++) {
+            temp=addOne(temp,capacity);
+        }
+        return a[temp];
 
         
     }
