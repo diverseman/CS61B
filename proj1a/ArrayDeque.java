@@ -11,18 +11,18 @@ resize(size*REFACTOR)
 */
 public class ArrayDeque <T>{
     //实际大小
-    static int size;
-    T a[];
+     static int size;
+     T a[];
     //容量
-    int capacity;
-    int addFirst;
-    int addLast;
+     int capacity;
+     int addFirst;
+     int addLast;
     public ArrayDeque(){
         size=0;
-        a=(T[])new Object[capacity];
         addFirst=3;
         addLast=4;
         capacity=8;
+        a=(T[])new Object[capacity];
     }
 
     // index减少
@@ -30,7 +30,8 @@ public class ArrayDeque <T>{
         if (index==0) return length-1;
         //Q:这里可能因为没有% 出现一些问题
         index=index%length;
-        return index--;
+        index-=1;
+        return index;
     }
 
     // index 增加
@@ -39,69 +40,78 @@ public class ArrayDeque <T>{
             return 0;
         }
         index=index%length;
-        return index++;
+        index+=1;
+        return index;
     }
+
+    // 用一个新数组去接收就好，addFirst就放到最前面，addLast就放到开头就好
     // 容量变成原来的2倍，
     // 例子：
     // 原数组：
-    // 1 2 3 4
+    // 2 1 4 3
     // 现数组：
-    // _           _           _           _            1  2  3  4
+    // _           _           _           _            4 3 2 1
     //addLast                             addFirst
+    //
     public void   resizeUp(int newCapacity){
-
-        int temp=capacity;
-
+        int temp=newCapacity/2;
         int i=0;
         //构建一个新的数组
         T newArray[]=(T[]) new Object[newCapacity];
+        addFirst= addOne(addFirst,capacity);
         while (i<capacity) {
-            newArray[temp]=a[addLast];
+            newArray[temp]=a[addFirst];
             temp=addOne(temp,newCapacity);
-            addLast=addOne(addLast,capacity);
+            addFirst=addOne(addFirst,capacity);
             i++;
         }
+
         a=newArray;
-        addFirst=capacity-1;
-        addLast=addOne(temp,newCapacity);
+        addFirst=(newCapacity/2)-1;
+        addLast=0;
         capacity=newCapacity;
         return ;
     }
 
-
+    //// 0 1 2 3 _ _ _ _ _ _ _
+    //   _ 0 _ _
     public void resizeDown(int newCapacity){
         T newArray[]=(T[]) new Object[newCapacity];
         int temp=newCapacity/2;
         int i=0;
         int index=addOne(addFirst,capacity);
+        addFirst=minusOne(temp,newCapacity);
         while (i<size()) {
             newArray[temp]=a[index];
             i++;
             index=addOne(index, capacity);
             temp=addOne(temp,newCapacity);
         }
+        addLast=temp;
         capacity=newCapacity;
         a=newArray;
+
     }
-    //需要更改
+
     public void addFirst(T item){
 
         if (size==a.length){
-            resizeUp(a.length*2);
+            resizeUp(capacity*2);
         }
         a[addFirst]=item;
         size+=1;
-        minusOne(addFirst,capacity);
+        addFirst=minusOne(addFirst,capacity);
         return;
     }
     public void addLast(T item){
         if (size==a.length){
-            resizeUp(a.length*2);
+            resizeUp(capacity*2);
         }
 
         a[addLast]=item;
         size++;
-        addOne(addLast,capacity);
+        addLast=addOne(addLast,capacity);
+        return;
 
     }
     public boolean isEmpty(){
@@ -114,29 +124,32 @@ public class ArrayDeque <T>{
 
     }
 
-// 打印之后再说，感觉是 first 打印first的，last打印last的，需要在改
+// 直接用一个去打印，和尺寸比较就好了
+    //
     public void printDeque() {
-        if (size() == 0) return;
-        //打印不对
+        if (size== 0) return;
 
+        int first=addOne(addFirst,capacity);
+        //和尺寸去比较
+        int i=0;
+                //minusOne(addLast, capacity);
+        while (i<size) {
 
-        int index = addOne(addFirst, capacity);
-        int res = minusOne(addLast, capacity);
-        while (index != res) {
-            //如果没有东西，那就略过 这里好像有问题，因为原数组 空的地方可能全为0
-            if (a[index] == null) continue;
-            System.out.println(a[index]);
-            index = minusOne(index, capacity);
+            System.out.println(a[first]);
+            first=addOne(first,capacity);
+            i+=1;
         }
+
+        return;
     }
     public T removeFirst(){
         if (a.length==0 ) return null;
-        int index=minusOne(addFirst,capacity);
+        int index=addOne(addFirst,capacity);
         T temp=a[index];
         addFirst=index;
         a[index]=null;
-        size--;
-        if (size/capacity<0.25){
+        size-=1;
+        if ((float)size/capacity<0.25){
             resizeDown(capacity/2);
          }
 
@@ -150,14 +163,11 @@ public class ArrayDeque <T>{
         addLast=index;
         size--;
         a[index]=null;
-        if (size/capacity<0.25){
+        if ((float)size/capacity<0.25){
             resizeDown(capacity/2);
         }
 
-        return temp ;
-
-
-
+        return temp;
     }
 
     public T get(int index){
