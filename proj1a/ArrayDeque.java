@@ -1,5 +1,4 @@
 
-
 /*
 !!! a.length 是这个数声明时 的框框的长度， int a[]=new int[100]; a.length=100
 所以这里的length和size 实际意义搞混了，需要重写
@@ -9,7 +8,8 @@ resize(size*REFACTOR)
 空间复杂度：usage ratio： SIZE/array.length
  halve the size of the array when R falls to less than 0.25.
 */
-public class ArrayDeque <T>{
+
+public class ArrayDeque <T> implements Deque<T>{
     //实际大小
      private static int size;
      private T a[];
@@ -93,8 +93,8 @@ public class ArrayDeque <T>{
 
     }
 
-    public void addFirst(T item){
 
+    public void addFirst(T item){
         if (size==a.length){
             resizeUp(capacity*2);
         }
@@ -103,6 +103,7 @@ public class ArrayDeque <T>{
         addFirst=minusOne(addFirst,capacity);
         return;
     }
+    @Override
     public void addLast(T item){
         if (size==a.length){
             resizeUp(capacity*2);
