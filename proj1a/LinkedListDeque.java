@@ -3,9 +3,6 @@
 public class LinkedListDeque<T> {
     // 需要一个LinkedList 节点
      private class Node{
-
-
-         // 还得想一想,两个变量得是私有的
         private T  item;
         private Node previous;
         private Node next;
@@ -23,7 +20,7 @@ public class LinkedListDeque<T> {
     }
     // 初始化的话，应该有一个节点
     private Node sentinel;
-    private  static int  size;
+    private   int  size;
      //生成一个空的Deque，此时size为0
      public LinkedListDeque(){
          //sentinel 最开始应该是自己指向自己，null应该也可以
@@ -83,14 +80,13 @@ public class LinkedListDeque<T> {
     }
     public boolean isEmpty(){
 
-         if (size()==0){
+         if (size==0){
              return true;
          }
          return  false;
 
     }
     public int size(){
-
          return size;
 
     }
@@ -103,11 +99,11 @@ public class LinkedListDeque<T> {
     }
     public T removeFirst(){
          if (size()==0){
-             return sentinel.item;
+             return null;
          }
         Node temp=sentinel.next;
          //如果只有一个节点
-         if (size()==1){
+         if (size==1){
              sentinel.next=sentinel;
              sentinel.previous=sentinel;
 
@@ -115,7 +111,7 @@ public class LinkedListDeque<T> {
          //如果有很多节点
          else {
              sentinel.next=temp.next;
-             temp.next.previous=temp;
+             temp.next.previous=sentinel;
          }
         temp.next=null;
         temp.previous=null;
@@ -125,10 +121,10 @@ public class LinkedListDeque<T> {
 
     }
     public T  removeLast(){
-        if (size()==0){
-            return sentinel.item;
+        if (size==0){
+            return null;
         }
-        size-=1;
+
         //如果有一个节点
         if (size()==1){
             Node temp=sentinel.next;
@@ -136,6 +132,7 @@ public class LinkedListDeque<T> {
             sentinel.previous=sentinel;
             temp.previous=null;
             temp.next=null;
+            size-=1;
             return temp.item;
         }
         //如果有很多节点
@@ -145,6 +142,7 @@ public class LinkedListDeque<T> {
             temp.previous.next=sentinel;
             temp.next=null;
             temp.previous=null;
+            size-=1;
 
             return temp.item;
         }
