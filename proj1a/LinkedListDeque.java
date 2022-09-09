@@ -35,42 +35,49 @@ public class LinkedListDeque<T> {
     public  void  addFirst(T item){
         Node temp=new Node(item,null,null);
         //共有操作
-        sentinel.next=temp;
-        temp.previous=sentinel;
+
         //只有sentinel
-        if (size()==0){
-            //sentinel的 前后都给第一个节点
+        if (size==0){
             sentinel.next=temp;
-            //第一节点的前后都给 sentinel
             temp.previous=sentinel;
+            //sentinel的 前后都给第一个节点
+            sentinel.previous=temp;
+            //第一节点的前后都给 sentinel
+            temp.next=sentinel;
+
         }
         //如果有好几个节点
         else {
-            temp.next=sentinel.previous;
-            sentinel.previous.previous=temp;
+            sentinel.next.previous=temp;
+            temp.next=sentinel.next;
+            temp.previous=sentinel;
+            sentinel.next=temp;
         }
          //节点需要加1
          size=size+1;
     }
     public void addLast(T item){
-         Node temp=new Node(item,null,null  );
+         Node temp=new Node(item,null,null);
 
-        //找到之前的最后一个节点
-        Node preLast=sentinel.previous;
-         //共有操作
-        temp.next=sentinel;
-        sentinel.previous=temp;
+
 
 
         //如果一个节点
-        if (size()==0){
-            //sentinel的 前后都给第一个节点
+        if (size==0){
             sentinel.next=temp;
-            //第一节点的前后都给 sentinel
             temp.previous=sentinel;
+            //sentinel的 前后都给第一个节点
+            sentinel.previous=temp;
+            //第一节点的前后都给 sentinel
+            temp.next=sentinel;
         }
         //如果好几个节点,用preLast
         else {
+            //找到之前的最后一个节点
+            Node preLast=sentinel.previous;
+            //共有操作
+            temp.next=sentinel;
+            sentinel.previous=temp;
             preLast.next=temp;
             temp.previous=preLast;
         }
@@ -98,7 +105,7 @@ public class LinkedListDeque<T> {
          }
     }
     public T removeFirst(){
-         if (size()==0){
+         if (size==0){
              return null;
          }
         Node temp=sentinel.next;
