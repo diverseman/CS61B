@@ -1,6 +1,6 @@
 //这里的泛型复习一下，没想清楚
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T>{
     // 需要一个LinkedList 节点
      private class Node{
         private T  item;
@@ -32,6 +32,7 @@ public class LinkedListDeque<T> {
     }
 
 
+    @Override
     public  void  addFirst(T item){
         Node temp=new Node(item,null,null);
         //共有操作
@@ -56,6 +57,7 @@ public class LinkedListDeque<T> {
          //节点需要加1
          size=size+1;
     }
+    @Override
     public void addLast(T item){
          Node temp=new Node(item,null,null);
 
@@ -85,6 +87,7 @@ public class LinkedListDeque<T> {
         size=size+1;
 
     }
+    @Override
     public boolean isEmpty(){
 
          if (size==0){
@@ -93,10 +96,12 @@ public class LinkedListDeque<T> {
          return  false;
 
     }
+    @Override
     public int size(){
          return size;
 
     }
+    @Override
     public void printDeque(){
          Node temp=sentinel.next;
          while (temp!=sentinel){
@@ -104,6 +109,7 @@ public class LinkedListDeque<T> {
              temp=temp.next;
          }
     }
+    @Override
     public T removeFirst(){
          if (size==0){
              return null;
@@ -127,6 +133,7 @@ public class LinkedListDeque<T> {
 
 
     }
+    @Override
     public T  removeLast(){
         if (size==0){
             return null;
@@ -156,6 +163,8 @@ public class LinkedListDeque<T> {
 
 
     }
+
+    @Override
     public T get(int index){
          Node temp=sentinel.next;
          int i=0;

@@ -93,7 +93,7 @@ public class ArrayDeque <T> implements Deque<T>{
 
     }
 
-
+    @Override
     public void addFirst(T item){
         if (size==a.length){
             resizeUp(capacity*2);
@@ -129,6 +129,7 @@ public class ArrayDeque <T> implements Deque<T>{
 
 // 直接用一个去打印，和尺寸比较就好了
     //
+    @Override
     public void printDeque() {
         if (size== 0) return;
 
@@ -145,6 +146,7 @@ public class ArrayDeque <T> implements Deque<T>{
 
         return;
     }
+    @Override
     public T removeFirst(){
         if (a.length==0 ) return null;
         int index=addOne(addFirst,capacity);
@@ -160,6 +162,7 @@ public class ArrayDeque <T> implements Deque<T>{
         return temp ;
     }
 
+    @Override
     public T removeLast(){
         if (capacity==0 ) return null;
         int index=minusOne(addLast,capacity);
@@ -174,6 +177,7 @@ public class ArrayDeque <T> implements Deque<T>{
         return temp;
     }
 
+    @Override
     public T get(int index){
         int temp=addFirst;
         for (int i = 0; i < index+1; i++) {
