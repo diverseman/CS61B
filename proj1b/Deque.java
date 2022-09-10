@@ -6,5 +6,7 @@ public interface  Deque<T>{
     public  T  removeLast();
     public void printDeque();
     public int size();
+    public  T get(int index);
+    public boolean isEmpty();
     
 }
