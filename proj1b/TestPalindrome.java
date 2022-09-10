@@ -24,5 +24,7 @@ public class TestPalindrome {
         assertEquals(palindrome.isPalindrome("11",new OffByOne()),true);
         assertEquals(palindrome.isPalindrome("131",new OffByOne()),true);
         assertEquals(palindrome.isPalindrome("ABCCBA",new OffByOne()),true);
+        assertEquals(palindrome.isPalindrome("",new OffByOne()),true);
+        assertEquals(palindrome.isPalindrome("1",new OffByOne()),true);
     }
 }
