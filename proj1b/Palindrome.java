@@ -20,7 +20,7 @@ public class Palindrome{
         }
         return true;
 
-    }
+    }//
     public boolean isPalindrome(String word,CharacterComparator cc){
         if (word.length()==0||word.length()==1){
             return true;
